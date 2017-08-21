@@ -13,7 +13,7 @@
 # Sample
   ## request server
     1. Create yourclass extents HttpAction<E> like:
-    ```
+    `
     public class LoginAction extends HttpAction<LoginEntity> {
 
       public LoginAction() {
@@ -31,9 +31,9 @@
           return gson.fromJson(response, LoginEntity.class);
       }
     }
-    ```
+    `
     2. Use the class you created in the first step:
-    ``` 
+    `
     new LoginAction()
         .addPara("18523641110", "123456")
         .addInterceptor(InterceptorUtil.buildCircleProgressbar(new CircleProgressBar(this, "加载中")))
@@ -43,14 +43,14 @@
                 LoginEntity entity = (LoginEntity) result.getEntity();
             }
         }).onFailToast(this).execute();
-   ```
+   `
   ## running permission
     * just extends BasePermissionActivity instead extends BaseActivity
-    ```
+    `
     public class MainActivity extends BasePermissionActivity {
-    ```
+    `
     * and use like this:
-    ```
+    `
     String[] permissions = new String[]{P_AUDIO, P_CAMERA, P_CONTACTS_GET};
     queryPermissions(permissions, new OnPermissionResult() {
         @Override
@@ -62,5 +62,5 @@
             }
         }
     });
-    ```
+    `
   
