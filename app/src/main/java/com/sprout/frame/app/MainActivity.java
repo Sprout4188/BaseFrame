@@ -45,7 +45,7 @@ public class MainActivity extends BasePermissionActivity {
                     public void call(HttpResult result) {
                         LoginEntity entity = (LoginEntity) result.getEntity();
                         String[] permissions = new String[]{P_AUDIO, P_CAMERA, P_CONTACTS_GET};
-                        queryPermissions(permissions, new OnPermissionResult() {
+                        requestPermissions(permissions, new OnPermissionResult() {
                             @Override
                             public void onPermissionResult(boolean isPermit) {
                                 if (isPermit) {

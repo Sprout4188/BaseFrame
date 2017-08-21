@@ -73,7 +73,7 @@ public abstract class BasePermissionActivity extends BaseActivity implements Act
      * @param permissions 待申请的权限
      * @param callback    申请成功与否的回调接口
      */
-    protected void queryPermissions(String[] permissions, OnPermissionResult callback) {
+    protected void requestPermissions(String[] permissions, OnPermissionResult callback) {
         if (permissions == null || permissions.length == 0)
             throw new IllegalArgumentException("The permission array hasn't elements");
         resultCallback = callback;
