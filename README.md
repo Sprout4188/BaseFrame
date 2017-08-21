@@ -54,9 +54,7 @@ new LoginAction()
 
 * just extends BasePermissionActivity instead extends BaseActivity
 
-```
-public class MainActivity extends BasePermissionActivity {
-```  
+```public class MainActivity extends BasePermissionActivity {```  
 
 * and use like this:
 
