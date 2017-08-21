@@ -64,9 +64,9 @@ queryPermissions(permissions, new OnPermissionResult() {
     @Override
     public void onPermissionResult(boolean isPermit) {
         if (isPermit) {
-            LogUtil.debug("申请权限成功");
+            LogUtil.debug("Query My Permissions Success");
         } else {
-            LogUtil.debug("申请权限失败");
+            LogUtil.debug("Query My Permissions Fail");
         }
     }
 });
