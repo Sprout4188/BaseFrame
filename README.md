@@ -14,7 +14,9 @@
   * Include RxAndroid, ButterKnife, EventBus, NiceToasty, ActivityManager
   
 # Sample
-## request server 
+
+## request server
+
 * Create yourclass extents HttpAction<E> like:
   
 ```
@@ -49,6 +51,7 @@ new LoginAction()
 ```
         
 ## running permission
+
 * just extends BasePermissionActivity instead extends BaseActivity
 
 ```
