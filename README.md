@@ -40,8 +40,8 @@ public class LoginAction extends HttpAction<LoginEntity> {
 
 ```
 new LoginAction()
-    .addPara("18523641110", "123456")
-    .addInterceptor(InterceptorUtil.buildCircleProgressbar(new CircleProgressBar(this, "加载中")))
+    .addPara("18588886666", "123456")
+    .addInterceptor(InterceptorUtil.buildCircleProgressbar(new CircleProgressBar(this, "I'm loading, please wait!")))
     .onSuccess(new Action1<HttpResult>() {
         @Override
         public void call(HttpResult result) {
