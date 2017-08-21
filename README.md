@@ -33,6 +33,7 @@ public class LoginAction extends HttpAction<LoginEntity> {
     }
 }
 ```
+
 * Use the class you created in the first step:
 
 ```
@@ -52,7 +53,8 @@ new LoginAction()
 
 ```
 public class MainActivity extends BasePermissionActivity {
-```   
+```  
+
 * and use like this:
 
 ```
@@ -68,3 +70,4 @@ queryPermissions(permissions, new OnPermissionResult() {
     }
 });
 ```
+
