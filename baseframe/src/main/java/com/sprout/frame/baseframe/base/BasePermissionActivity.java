@@ -6,15 +6,13 @@ package com.sprout.frame.baseframe.base;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
+import com.sprout.frame.baseframe.utils.ActivityUtil;
 import com.sprout.frame.baseframe.widgets.nicetoast.Toasty;
 
 import java.util.ArrayList;
@@ -151,7 +149,7 @@ public abstract class BasePermissionActivity extends BaseActivity implements Act
                 .setPositiveButton("设置", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        startAppSettings();
+                        ActivityUtil.startAppSettings(BasePermissionActivity.this);
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -160,15 +158,6 @@ public abstract class BasePermissionActivity extends BaseActivity implements Act
 
                     }
                 }).setCancelable(false).show();
-    }
-
-    /**
-     * 启动本应用的设置界面
-     */
-    private void startAppSettings() {
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        intent.setData(Uri.parse("package:" + getPackageName()));
-        startActivity(intent);
     }
 
     protected interface OnPermissionResult {
@@ -228,8 +217,6 @@ public abstract class BasePermissionActivity extends BaseActivity implements Act
                 case P_STORAGE_READ:
                 case P_STORAGE_WRITE:
                     Toasty.info(this, "请在系统\"设置\"中打开-存储-权限。").show();
-                    break;
-                default:
                     break;
             }
         }
