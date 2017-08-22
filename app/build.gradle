@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat
 apply plugin: 'com.android.application'
 
 android {
@@ -10,9 +11,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
     buildTypes {
         release {
@@ -20,6 +19,28 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    /*配置生成apk名称*/
+    applicationVariants.all {
+        variant ->
+            variant.outputs.each { output ->
+                def file = output.outputFile
+                if (variant.buildType.name.equals('release')) {
+                    def releaseApkName = "BaseFrame-" + defaultConfig.versionName + "-" + buildTime() + ".apk"
+                    output.outputFile = new File(file.parent, releaseApkName)
+                }
+                if (variant.buildType.name.equals('debug')) {
+                    def debugApkName = "BaseFrame-" + defaultConfig.versionName + "-" + buildTime() + "-debug.apk"
+                    output.outputFile = new File(file.parent, debugApkName)
+                }
+            }
+    }
+}
+
+def buildTime() {
+    def df = new SimpleDateFormat("yyyyMMddHHmmss")
+    df.setTimeZone(TimeZone.getDefault())
+    return df.format(new Date())
 }
 
 dependencies {
