@@ -11,6 +11,7 @@
   * Encapsulates SharedPreferences.
   * Integrate Encryption and Decryption module
   * Integrate immersive statusbar
+  * Integrate ORM
   * Include RxAndroid, ButterKnife, EventBus, NiceToasty, ActivityManager
   
 # Sample
