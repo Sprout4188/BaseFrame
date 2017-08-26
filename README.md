@@ -15,7 +15,7 @@
   
 # Sample
 
-## request server
+## request server(网络请求)
 
 * Create yourclass extents HttpAction<E> like:
   
@@ -50,7 +50,7 @@ new LoginAction()
     }).onFailToast(this).execute();
 ```
         
-## running permission
+## running permission(动态权限)
 
 * just extends BasePermissionActivity instead extends BaseActivity
 
@@ -72,3 +72,70 @@ queryPermissions(permissions, new OnPermissionResult() {
 });
 ```
 
+## ORM(数据库)
+* create java bean which will be stored in sqlite like this
+```
+@Table(name = "user")   //指定表名
+public class User {
+
+    @Column(name = "_id", primaryKey = true)  //指定列名(最多可有一个主键, 也可以不指定)
+    private int uid;
+
+    @Column(name = "name")
+    private String uname;
+
+    @Column(name = "addr")
+    private String uaddress;
+
+    //getter and setter method
+}
+```
+* create class extends BaseDao
+```
+public class UserDao extends BaseDao<User> {
+
+    public UserDao() {
+        super(User.class);
+    }
+
+    @Override
+    public long insert(User user) {
+        SQLiteDatabase db = getDB();
+        ContentValues values = new ContentValues();
+        values.put("_id", user.getUid());
+        values.put("name", user.getUname());
+        values.put("addr", user.getUaddress());
+        long count = db.insert(tableName, null, values);
+        db.close();
+        return count;
+    }
+
+    @Override
+    public int delete(String rowID) {
+        //删
+    }
+
+    @Override
+    public int update(User user) {
+        //改
+    }
+
+    @Override
+    public User query(String rowID) {
+        //查
+    }
+
+    @Override
+    public List<User> queryAll() {
+        //查(所有)
+    }
+}
+```
+* and use like this:
+```
+UserDao userDao = new UserDao();
+User user = new User();
+user.setUname("sprout" + uid);
+user.setUaddress("chengdu" + uid);
+userDao.insert(user);
+```
