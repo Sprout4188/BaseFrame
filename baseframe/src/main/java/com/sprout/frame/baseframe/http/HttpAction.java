@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sprout.frame.baseframe.dataModel.Customer;
+import com.sprout.frame.baseframe.datamodel.Customer;
 import com.sprout.frame.baseframe.global.Api;
 import com.sprout.frame.baseframe.http.typeAdapterFactory.NullStringTypeAdapterFactory;
 import com.sprout.frame.baseframe.utils.AndroidUtil;

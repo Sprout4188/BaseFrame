@@ -1,4 +1,4 @@
-package com.sprout.frame.baseframe.dataModel;
+package com.sprout.frame.baseframe.datamodel;
 
 /**
  * Create by Sprout at 2017/8/15

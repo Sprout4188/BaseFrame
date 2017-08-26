@@ -1,7 +1,7 @@
 package com.sprout.frame.baseframe.httpAction;
 
 import com.google.gson.Gson;
-import com.sprout.frame.baseframe.dataModel.Customer;
+import com.sprout.frame.baseframe.datamodel.Customer;
 import com.sprout.frame.baseframe.entity.LoginEntity;
 import com.sprout.frame.baseframe.global.Api;
 import com.sprout.frame.baseframe.http.HttpAction;
