@@ -134,6 +134,7 @@ public class UserDao extends BaseDao<User> {
 * and use like this:
 ```
 UserDao userDao = new UserDao();
+
 User user = new User();
 user.setUname("sprout" + uid);
 user.setUaddress("chengdu" + uid);
