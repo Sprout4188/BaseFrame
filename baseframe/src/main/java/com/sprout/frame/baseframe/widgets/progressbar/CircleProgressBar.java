@@ -35,6 +35,5 @@ public class CircleProgressBar extends BaseProgressbar {
     }
 
     @Override
-    public void onDismiss() {
-    }
+    public void onDismiss() {}
 }

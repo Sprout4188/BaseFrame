@@ -30,9 +30,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void onCreate(@Nullable Bundle savedInstanceState, int layoutId) {
         super.onCreate(savedInstanceState);
-//        //设置状态字体颜色为黑色
+//        //设置状态栏字体颜色为黑色
 //        StatusBarUtil.statusBarLightMode(this);
-        //设置状态背景颜色
+        //设置状态栏背景颜色
         StatusBarUtil.setStatusBarColor(this, R.color.color_statusbar);
         //设置根布局
         setContentView(R.layout.activity_root);
@@ -47,14 +47,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         manager.onShow();
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         manager.onHide();
     }
 
@@ -162,7 +162,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * 获取contentview
+     * 获取contentView
      */
     public View getMyContentView() {
         return contentView;
