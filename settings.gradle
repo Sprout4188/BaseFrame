@@ -1,1 +1,1 @@
-include ':baseframe', ':app'
+include ':baseframe', ':app', ':takephoto'

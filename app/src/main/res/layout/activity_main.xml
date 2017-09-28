@@ -6,233 +6,83 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-
-        <RelativeLayout
-            android:layout_width="250dp"
-            android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
 
             <Button
                 android:id="@+id/btTestNet"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="请求网络测试"/>
+                android:layout_weight="4"
+                android:text="请求网络示例"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
 
             <Button
                 android:id="@+id/btTestDB"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="数据库测试"/>
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/btInsertSingle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="增(单行)"/>
-
-            <TextView
-                android:id="@+id/tvInsertSingle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"/>
+                android:layout_weight="4"
+                android:text="数据库示例"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
 
             <Button
-                android:id="@+id/btInsertMulti"
-                android:layout_width="wrap_content"
+                android:id="@+id/btTestPermission"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="增(多行)"/>
+                android:layout_weight="4"
+                android:text="动态权限示例"/>
 
-            <TextView
-                android:id="@+id/tvInsertMulti"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="--"
+                android:visibility="invisible"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
 
             <Button
-                android:id="@+id/btDeleteSingle"
-                android:layout_width="wrap_content"
+                android:id="@+id/btCapture"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="删(单行)"/>
+                android:layout_weight="4"
+                android:text="拍照示例"/>
 
-            <EditText
-                android:id="@+id/etDeleteSingle"
-                android:layout_width="wrap_content"
+            <View
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="rowID"/>
-
-            <TextView
-                android:id="@+id/tvDeleteSingle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                android:layout_weight="1"/>
 
             <Button
-                android:id="@+id/btDeleteMulti"
-                android:layout_width="wrap_content"
+                android:id="@+id/btSelect"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="删(多行)"/>
-
-            <EditText
-                android:id="@+id/etDeleteMulti"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="rowIDs"/>
-
-            <TextView
-                android:id="@+id/tvDeleteMulti"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/btDeleteAll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="删(所有)"/>
-
-            <TextView
-                android:id="@+id/tvDeleteAll"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/btUpdateSingle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="改(单行)"/>
-
-            <EditText
-                android:id="@+id/etUpdateSingle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="rowID"/>
-
-            <TextView
-                android:id="@+id/tvUpdateSingle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/btUpdateMulti"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="改(多行)"/>
-
-            <EditText
-                android:id="@+id/etUpdateMulti"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="rowIDs"/>
-
-            <TextView
-                android:id="@+id/tvUpdateMulti"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/btQuerySingle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="查(单行)"/>
-
-            <EditText
-                android:id="@+id/etQuerySingle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="rowID"/>
-
-            <TextView
-                android:id="@+id/tvQuerySingle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/btQueryMulti"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="查(多行)"/>
-
-            <EditText
-                android:id="@+id/etQueryMulti"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="rowIDs"/>
-
-            <TextView
-                android:id="@+id/tvQueryMulti"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/btQueryAll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="查(所有)"/>
-
-            <TextView
-                android:id="@+id/tvQueryAll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"/>
+                android:layout_weight="4"
+                android:text="选择照片示例"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

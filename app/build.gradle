@@ -1,4 +1,5 @@
 import java.text.SimpleDateFormat
+
 apply plugin: 'com.android.application'
 
 android {
@@ -48,7 +49,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile project(':baseframe')
+    compile project(':takephoto')
+
     compile 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }

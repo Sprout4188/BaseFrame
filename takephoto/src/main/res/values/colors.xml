@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--TakePhoto相册状态栏背景色-->
+    <color name="multiple_image_select_primary">#FF4081</color>
+    <color name="multiple_image_select_primaryDark">#FF4081</color>
+    <color name="multiple_image_select_accent">#FF4081</color>
+</resources>
