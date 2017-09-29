@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sprout.frame.baseframe.datamodel.Customer;
-import com.sprout.frame.baseframe.global.Api;
 import com.sprout.frame.baseframe.http.typeAdapterFactory.NullStringTypeAdapterFactory;
 import com.sprout.frame.baseframe.utils.AndroidUtil;
 import com.sprout.frame.baseframe.utils.LogUtil;
@@ -42,8 +41,12 @@ public abstract class HttpAction<E> extends LongAction<E, String> {
     private Map<String, File> fileMap = new HashMap<>();
     private Gson gson;
 
-    private String host = Api.HOST;
+    private static String host;
     private String rPath;
+
+    public static void setHost(String host) {
+        HttpAction.host = host;
+    }
 
     public HttpAction(String rPath) {
         this.rPath = rPath;
@@ -51,7 +54,7 @@ public abstract class HttpAction<E> extends LongAction<E, String> {
     }
 
     public HttpAction(String host, String rPath) {
-        this.host = host;
+        HttpAction.host = host;
         this.rPath = rPath;
         initial();
     }
@@ -103,6 +106,8 @@ public abstract class HttpAction<E> extends LongAction<E, String> {
     }
 
     private void realExecute() {
+        if(TextUtils.isEmpty(host)) return;
+
         runOnStart();   //请求开始前的回调
         final String url = host.concat(rPath);
         PostFormBuilder builder = OkHttpUtils.post().url(url).params(map);

@@ -2,4 +2,6 @@
 <resources>
     <!--TakePhoto相册状态栏背景色-->
     <color name="multiple_image_select_primaryDark">@color/color_statusbar</color>
+    <!--TakePhoto相册选择图片后标题栏的背景色-->
+    <color name="multiple_image_select_primary">@color/color_statusbar</color>
 </resources>

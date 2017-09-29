@@ -7,37 +7,129 @@ android {
     buildToolsVersion "25.0.3"
 
     defaultConfig {
-        applicationId "com.mysirui.carshare.app"
+        applicationId "com.sprout.frame.app"
         minSdkVersion 18
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+    // 1.使用签名文件进行签名的两种方式
+    // 第一种：使用gradle直接签名打包, 需要将.jks文件放在项目根目录下, 只需写相对路径
+    signingConfigs {
+        config {
+            storeFile file('keyTest.jks')
+            storePassword '123456'
+            keyAlias 'HomeKey'
+            keyPassword '123456'
+        }
+    }
+    // 第二种：为了保护签名文件，把它放在local.properties中并在版本库中排除
+    // 不把这些信息写入到版本库中（注意，此种方式签名文件中不能有中文）
+//    signingConfigs {
+//        config {
+//            storeFile file(properties.getProperty("keystore_storeFile"))
+//            storePassword properties.getProperty("keystore_storePassword")
+//            keyAlias properties.getProperty("keystore_keyAlias")
+//            keyPassword properties.getProperty("keystore_keyPassword")
+//        }
+//    }
+
+    // 2. 构建不同的风味(客户或渠道)
+    productFlavors {
+        bf_demo {
+            // 在构建本风味的不同版本时, 会用这里定义的appid覆盖掉defaultConfig默认配置下的appid
+            applicationId "com.sprout.frame.app"
+            // 再前面的appid基础上添加后缀(不要漏掉"."), 即appid变为com.sprout.frame.app.demo
+            applicationIdSuffix ".demo"
+            // 给BuildConfig类新增静态常量, 三参数分别表示: 类型, Key, Value, 代码中任意地方通过BuildConfig.API_URL来获取Value
+            buildConfigField "String", "API_URL", "\"http://192.168.6.101:3000\""
+            // 对应res/values/strings.xml中的 <string name="app_name">BaseFrame</string>, 故这里的string首字母是小写
+            // 特别注意, 这里定义后, 需要将res/values/strings.xml中的 <string name="app_name">BaseFrame</string>注释或删除掉
+            // 否则会报资源重复异常
+            resValue "string", "app_name", "BF(demo)"
+        }
+        bf_test {
+            applicationId "com.sprout.frame.test"
+            // 也可以用单引号, 这样"就不再需要转义\"
+            buildConfigField "String", "API_URL", '"http://192.168.42.151:8080"'
+            resValue "string", "app_name", "BF(test)"
+        }
+        bf_other {
+            applicationId "com.sprout.frame.other"
+            buildConfigField 'String', 'API_URL', '"http://192.168.11.23:8090"'
+            resValue "string", "app_name", "BF(某客户)"
         }
     }
 
-    /*配置生成apk名称*/
-    applicationVariants.all {
-        variant ->
-            variant.outputs.each { output ->
-                def file = output.outputFile
-                if (variant.buildType.name.equals('release')) {
-                    def releaseApkName = "BaseFrame-" + defaultConfig.versionName + "-" + buildTime() + ".apk"
-                    output.outputFile = new File(file.parent, releaseApkName)
-                }
-                if (variant.buildType.name.equals('debug')) {
-                    def debugApkName = "BaseFrame-" + defaultConfig.versionName + "-" + buildTime() + "-debug.apk"
-                    output.outputFile = new File(file.parent, debugApkName)
-                }
+    // 3. 构建不同的版本(若不区分版本, 采用默认配置即可)
+    buildTypes {
+        debug {
+            // 表示在风味中定义的appid的基础上, 再加上后缀
+            // 如 bf_demo 变体, 其 appid 为: com.sprout.frame.app.demo.debug
+            applicationIdSuffix ".debug"
+        }
+        release {
+            applicationIdSuffix ".release"
+            // release模式下, 不显示log, 使用: if(BuildConfigField.LOG_DEBUG) {开启日志开关} else {关闭日志开关}
+            buildConfigField("boolean", "LOG_DEBUG", "false")
+            // 为版本名添加后缀
+            versionNameSuffix "-relase"
+            // 不开启混淆
+            minifyEnabled false
+            // 开启ZipAlign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+            // 使用config签名
+            signingConfig signingConfigs.config
+            // 混淆文件位置
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        dev {
+            applicationIdSuffix ".dev"
+        }
+    }
+
+    // 4.输出不同的apk名称
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                def dirName = outputFile.parent // 输出文件夹所在的位置
+                // 文件名修改 app-变体名-版本名-时间
+                def fileName = "BaseFrame-${output.processResources.variantName}-${defaultConfig.versionName}-${buildTime()}.apk"
+                output.outputFile = new File(dirName, fileName)
             }
+        }
+    }
+
+    // 5.配置资源集
+    sourceSets {
+        main {
+            // a.给繁多的layout布局文件分目录存放
+            // 注意要从最底层目录定义起走, 直到最后定义最外层目录, 因为studio在编译时优先从最里层目录寻找所需布局
+            res.srcDirs = [
+                    'src/main/res/layout/layout_activity',//activity的xml
+                    'src/main/res/layout/layout_dialog',  //dialog的xml
+                    'src/main/res/layout/layout_view',    //view的xml（界面分离原则下）
+                    'src/main/res/layout',
+                    'src/main/res'
+            ]
+            // b. 指定当studio在main下的jniLibs目录中去找.so文件时, 转到app/libs下去寻找
+            // 可以方便地直接将.so文件丢在app/libs中, 不用新建jniLibs文件夹
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    // 6.移除lint检测的error
+    lintOptions {
+        abortOnError false
     }
 }
 
+// 7.获取构建时间
 def buildTime() {
     def df = new SimpleDateFormat("yyyyMMddHHmmss")
     df.setTimeZone(TimeZone.getDefault())
