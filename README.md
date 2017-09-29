@@ -144,7 +144,7 @@ userDao.insert(user);
 ```
 
 ## take picture(选择图片)
-### use by activity
+### use in activity
 * create your own activity extends TakePhotoActivity and use like this:
 ```
 /**
@@ -308,3 +308,5 @@ public class CaptureSimpleActivity extends TakePhotoActivity {
     }
 }
 ```
+### use in fragment
+* extends TakePhotoFragmentActivity or TakePhotoFragment, and the same usage as in activity
