@@ -311,7 +311,7 @@ public class CaptureSimpleActivity extends TakePhotoActivity {
 ### use in fragment
 * extends TakePhotoFragmentActivity or TakePhotoFragment, and the same usage as in activity
 
-### 自定义相册标题栏和状态栏
+### custom toolbar and statusbar(自定义相册标题栏和状态栏)
 * you can change the takephoto/res/layout/toolbar.xml background to custom statusbar's background
 ```
 <?xml version="1.0" encoding="utf-8"?>
