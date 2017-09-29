@@ -144,7 +144,7 @@ userDao.insert(user);
 ```
 
 ## take picture(选择图片)
-# use by activity
+### use by activity
 * create your own activity extends TakePhotoActivity and use like this:
 ```
 /**
@@ -218,8 +218,8 @@ public class CaptureSimpleActivity extends TakePhotoActivity {
             TImage.FromType type = images.get(i).getFromType();
             boolean cropped = images.get(i).isCropped();
             boolean compressed = images.get(i).isCompressed();
-            LogUtil.debug("原始路径 = " + originalPath);
-            LogUtil.debug("压缩路径 = " + compressPath);
+            LogUtil.debug("原图或裁剪路径 = " + originalPath);  //若裁剪, 则表示裁剪路径; 若不裁剪, 则表示原图路径
+            LogUtil.debug("压缩路径 = " + compressPath);       //若不压缩, 则为null
             LogUtil.debug("图片来源 = " + (type == TImage.FromType.CAMERA ? "相机" : "其它"));
             LogUtil.debug("是否裁剪 = " + cropped);
             LogUtil.debug("是否压缩 = " + compressed);
@@ -289,7 +289,7 @@ public class CaptureSimpleActivity extends TakePhotoActivity {
             if (images.get(i).isCompressed()) { //如果压缩, 则显示压缩后的图片
                 Glide.with(this).load(new File(images.get(i).getCompressPath())).into(imageView1);
                 Glide.with(this).load(new File(images.get(i + 1).getCompressPath())).into(imageView2);
-            } else {    //如果没压缩, 则显示原图或裁剪后的图片
+            } else {                            //如果没压缩, 则显示原图或裁剪后的图片
                 Glide.with(this).load(new File(images.get(i).getOriginalPath())).into(imageView1);
                 Glide.with(this).load(new File(images.get(i + 1).getOriginalPath())).into(imageView2);
             }
