@@ -65,13 +65,13 @@ public class CaptureSimpleActivity extends TakePhotoActivity {
         Uri outUri = Uri.fromFile(file);
 
         switch (view.getId()) {
-            case R.id.btTestCapture:
+            case R.id.btTestCapture:    //从相机拍照
                 //从相机拍照, 不裁剪
 //                takePhoto.onPickFromCapture(outUri);
                 //从相机拍照, 并裁剪
                 takePhoto.onPickFromCaptureWithCrop(outUri, getCropOptions(true));
                 break;
-            case R.id.btTestSelect:
+            case R.id.btTestSelect:     //从相册或文件选图
                 //从相册选图, 不裁剪
 //                takePhoto.onPickFromGallery();
                 //从相册选图, 并裁剪
@@ -97,8 +97,8 @@ public class CaptureSimpleActivity extends TakePhotoActivity {
             TImage.FromType type = images.get(i).getFromType();
             boolean cropped = images.get(i).isCropped();
             boolean compressed = images.get(i).isCompressed();
-            LogUtil.debug("原始路径 = " + originalPath);
-            LogUtil.debug("压缩路径 = " + compressPath);
+            LogUtil.debug("原图或裁剪路径 = " + originalPath);  //若裁剪, 则表示裁剪路径; 若不裁剪, 则表示原图路径
+            LogUtil.debug("压缩路径 = " + compressPath);       //若不压缩, 则为null
             LogUtil.debug("图片来源 = " + (type == TImage.FromType.CAMERA ? "相机" : "其它"));
             LogUtil.debug("是否裁剪 = " + cropped);
             LogUtil.debug("是否压缩 = " + compressed);
@@ -155,6 +155,9 @@ public class CaptureSimpleActivity extends TakePhotoActivity {
         return compressOptions;
     }
 
+    /**
+     * 将选择的图片展示在界面上
+     */
     private void showImg(List<TImage> images) {
         llShow.removeAllViews();
 
