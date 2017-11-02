@@ -15,14 +15,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".DBSimpleActivity">
-        </activity>
-        <activity android:name=".NetSimpleActivity">
-        </activity>
-        <activity android:name=".PermissionSimpleActivity">
-        </activity>
-        <activity android:name=".CaptureSimpleActivity">
-        </activity>
+        <activity android:name=".DBSimpleActivity"/>
+        <activity android:name=".NetSimpleActivity"/>
+        <activity android:name=".PermissionSimpleActivity"/>
+        <activity android:name=".CaptureSimpleActivity"/>
     </application>
 
 </manifest>
