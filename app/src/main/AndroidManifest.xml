@@ -19,6 +19,7 @@
         <activity android:name=".NetSimpleActivity"/>
         <activity android:name=".PermissionSimpleActivity"/>
         <activity android:name=".CaptureSimpleActivity"/>
+        <activity android:name=".WebViewSimpleActivity"/>
     </application>
 
 </manifest>

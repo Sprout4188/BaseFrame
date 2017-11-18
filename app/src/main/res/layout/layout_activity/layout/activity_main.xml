@@ -53,11 +53,12 @@
                 android:layout_weight="1"/>
 
             <Button
+                android:id="@+id/btTestWebView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:text="--"
-                android:visibility="invisible"/>
+                android:text="WebView示例"
+                android:textAllCaps="false"/>
         </LinearLayout>
 
         <LinearLayout

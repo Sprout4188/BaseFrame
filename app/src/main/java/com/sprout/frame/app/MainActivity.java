@@ -28,7 +28,7 @@ public class MainActivity extends BaseActivity {
         setTitle("示例入口");
     }
 
-    @OnClick({R.id.btTestNet, R.id.btTestDB, R.id.btTestPermission, R.id.btCapture, R.id.btSelect})
+    @OnClick({R.id.btTestNet, R.id.btTestDB, R.id.btTestPermission, R.id.btCapture, R.id.btSelect, R.id.btTestWebView})
     public void click(View view) {
         switch (view.getId()) {
             case R.id.btTestNet:            //请求网络示例
@@ -45,6 +45,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.btSelect:             //选择照片示例
                 go(this, CaptureSimpleActivity.class);
+                break;
+            case R.id.btTestWebView:        //WebView示例
+                go(this, WebViewSimpleActivity.class);
                 break;
         }
     }
