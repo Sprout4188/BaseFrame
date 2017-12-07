@@ -141,21 +141,7 @@ public abstract class HttpAction<E> extends LongAction<E, String> {
                     //Gson解析响应
                     HttpResult<E> httpResult = new HttpResult<>();
                     httpResult.setEntity(decodeAndProcessModel(response, httpResult));
-                    //根据不同的code区别处理
-                    switch (httpResult.getResultCode()) {
-                        case 0:
-                            runOnResult(httpResult);
-                            break;
-                        case 1:
-                            runOnResult(HttpResult.defaultErrorResult);
-                            break;
-                        case 2:
-                            runOnResult(HttpResult.accountErrorResult);
-                            break;
-                        default:
-                            runOnResult(httpResult);
-                            break;
-                    }
+                    runOnResult(httpResult);
                 } catch (Exception e) {
                     e.printStackTrace();
                     runOnResult(HttpResult.paseErrorResult);

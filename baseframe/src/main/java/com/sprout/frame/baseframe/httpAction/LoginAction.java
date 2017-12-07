@@ -33,7 +33,7 @@ public class LoginAction extends HttpAction<LoginEntity> {
 
     @Override
     public LoginEntity decodeModel(String response, HttpResult<LoginEntity> result, Gson gson) {
-        if (result.getResultCode() == 0) {
+        if (result.isSucc()) {
             //将加密后的用户名和密码存在SP中
             AppSP.username.setValue(encryUsername);
             AppSP.password.setValue(encryPassword);
