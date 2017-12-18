@@ -76,6 +76,9 @@ public class CaptureSimpleActivity extends TakePhotoActivity {
 //                takePhoto.onPickFromGallery();
                 //从相册选图, 并裁剪
                 takePhoto.onPickFromGalleryWithCrop(outUri, getCropOptions(true));
+                //使用TakePhoto自带的相册进行多图片选择
+//                takePhoto.onPickMultiple(5);
+//                takePhoto.onPickMultipleWithCrop(5, getCropOptions(true));
                 //从文件选图, 不裁剪
 //                takePhoto.onPickFromDocuments();
                 //从文件选图, 并裁剪
