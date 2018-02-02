@@ -32,8 +32,23 @@ public class NetSimpleActivity extends BaseActivity {
                     @Override
                     public void call(HttpResult result) {
                         LoginEntity entity = (LoginEntity) result.getEntity();
-
+                        /**
+                         * 特别注意, 如果要在本回调中去更新界面, 要做非空判断.
+                         * 防止网络较差的情况下, 回调返回时, 用户已经退出界面了,
+                         * 这时再去更新界面, 会出现空指针异常崩溃
+                         */
                     }
-                }).onFailToast(this).execute();
+                })
+                .onFail(new Action1<HttpResult>() {
+                    @Override
+                    public void call(HttpResult result) {
+                        /**
+                         * 特别注意, 如果要在本回调中去更新界面, 要做非空判断.
+                         * 防止网络较差的情况下, 回调返回时, 用户已经退出界面了,
+                         * 这时再去更新界面, 会出现空指针异常崩溃
+                         */
+                    }
+                })
+                .onFailToast(this).execute();
     }
 }

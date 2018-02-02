@@ -106,7 +106,7 @@ public abstract class HttpAction<E> extends LongAction<E, String> {
     }
 
     private void realExecute() {
-        if(TextUtils.isEmpty(host)) return;
+        if (TextUtils.isEmpty(host)) return;
 
         runOnStart();   //请求开始前的回调
         final String url = host.concat(rPath);
@@ -159,7 +159,8 @@ public abstract class HttpAction<E> extends LongAction<E, String> {
         result.setResultCode(resultObject.getInt("resultCode"));
         result.setResultMessage(resultObject.getString("resultMessage"));
         //解析非公共的数据
-        if (gson == null) gson = new GsonBuilder().registerTypeAdapterFactory(new NullStringTypeAdapterFactory()).create();
+        if (gson == null)
+            gson = new GsonBuilder().registerTypeAdapterFactory(new NullStringTypeAdapterFactory()).create();
         E e = decodeModel(response, result, gson);
         result.setEntity(e);
         return e;
