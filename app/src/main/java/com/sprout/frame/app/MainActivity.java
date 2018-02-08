@@ -6,14 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
+import com.hwangjr.rxbus.thread.EventThread;
 import com.sprout.frame.baseframe.base.BaseActivity;
 import com.sprout.frame.baseframe.event.NetworkStatusChangeEvent;
 import com.sprout.frame.baseframe.http.HttpAction;
-import com.sprout.frame.baseframe.lifecycle.EventBusLifecycle;
 import com.sprout.frame.baseframe.widgets.nicetoast.Toasty;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.OnClick;
 
@@ -24,7 +23,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState, R.layout.activity_main);
         // 在应用入口Activity中配置BaseURL
         HttpAction.setHost(BuildConfig.API_URL);
-        addLifecycle(new EventBusLifecycle(this));
         setTitle("示例入口");
     }
 
@@ -52,7 +50,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe()
     public void onNetChange(NetworkStatusChangeEvent event) {
         Toasty.warning(this, "hahahaha").show();
     }

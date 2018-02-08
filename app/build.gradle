@@ -4,7 +4,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.sprout.frame.app"
@@ -12,6 +12,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        flavorDimensions "versionCode"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -80,8 +81,6 @@ android {
             minifyEnabled false
             // 开启ZipAlign优化
             zipAlignEnabled true
-            // 移除无用的resource文件
-            shrinkResources true
             // 使用config签名
             signingConfig signingConfigs.config
             // 混淆文件位置
@@ -94,14 +93,8 @@ android {
 
     // 4.输出不同的apk名称
     applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                def dirName = outputFile.parent // 输出文件夹所在的位置
-                // 文件名修改 app-变体名-版本名-时间
-                def fileName = "BaseFrame-${output.processResources.variantName}-${defaultConfig.versionName}-${buildTime()}.apk"
-                output.outputFile = new File(dirName, fileName)
-            }
+        variant.outputs.all {   // 文件名修改 BaseFrame-变体名-版本名-时间
+            outputFileName = "BaseFrame-${variant.mergeResources.variantName}-${defaultConfig.versionName}-${buildTime()}.apk"
         }
     }
 
@@ -138,11 +131,8 @@ def buildTime() {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     compile project(':takephoto')
 
-    compile 'com.jakewharton:butterknife:8.4.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.jakewharton:butterknife:8.3.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.3.0'
 }

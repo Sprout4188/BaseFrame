@@ -22,7 +22,7 @@ public class LoginAction extends HttpAction<LoginEntity> {
         super(Api.API_LOGIN);
     }
 
-    public LoginAction addPara(String username, String password) {
+    public LoginAction para(String username, String password) {
         //加密用户名和密码
         encryUsername = CoderUtil.encode(username);
         encryPassword = CoderUtil.encode(password);

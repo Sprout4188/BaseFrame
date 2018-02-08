@@ -4,7 +4,13 @@ package com.sprout.frame.baseframe.sp;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.sprout.frame.baseframe.base.App;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -57,6 +63,30 @@ public class BaseSP {
 
     public double getDoubleItem(String key, double defaultValue) {
         return pref.getFloat(key, (float) defaultValue);
+    }
+
+    /**
+     * 保存List
+     */
+    public void setList(String tag, List<String> datalist) {
+        if (null == datalist) return;
+        //转换成json数据，再保存
+        String strJson = new Gson().toJson(datalist);
+        editor.putString(tag, strJson);
+        editor.commit();
+    }
+
+    /**
+     * 获取List
+     */
+    public List<String> getList(String tag) {
+        List<String> datalist = new ArrayList<>();
+        String strJson = pref.getString(tag, null);
+        if (null == strJson) return datalist;
+        Type type = new TypeToken<List<String>>() {
+        }.getType();
+        datalist = new Gson().fromJson(strJson, type);
+        return datalist;
     }
 
     /**

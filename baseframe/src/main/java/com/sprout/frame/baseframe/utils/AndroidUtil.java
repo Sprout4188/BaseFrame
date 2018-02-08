@@ -9,8 +9,14 @@ import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
 
-import com.sprout.frame.baseframe.sp.CommonSP;
+import com.sprout.frame.baseframe.sp.ForeverInfoSP;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.UUID;
 
 /**
@@ -18,6 +24,7 @@ import java.util.UUID;
  */
 public class AndroidUtil {
 
+    public static final String defaultFileName = "imei.txt";
     /**
      * 手机系统SDK版本号, 如16
      */
@@ -75,12 +82,65 @@ public class AndroidUtil {
      * 获取IMEI UUID
      */
     public static String getUUID() {
-        String uuid = CommonSP.uuid.getValue();
-        if (TextUtils.isEmpty(uuid)) {  //没有设置过
-            uuid = UUID.randomUUID().toString();
-            CommonSP.uuid.setValue(uuid);
+        String uuid = readSDcard();
+        if (!TextUtils.isEmpty(uuid)) {
+            return uuid;
         }
+        uuid = ForeverInfoSP.uuid.getValue();
+        if (!TextUtils.isEmpty(uuid)) {
+            return uuid;
+        }
+        uuid = UUID.randomUUID().toString();
+        try {
+            writeSDcard(uuid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ForeverInfoSP.uuid.setValue(uuid);
         return uuid;
+    }
+
+    /**
+     * 从SD卡中读imei数据
+     */
+    public static String readSDcard() {
+        StringBuilder sb = new StringBuilder();
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            try {
+                File file = new File(getGlobalpath() + defaultFileName);
+                if (file.exists()) {
+                    FileInputStream fileInputStream = new FileInputStream(file);
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+                    String s;
+                    while ((s = bufferedReader.readLine()) != null) {
+                        sb.append(s);
+                    }
+                    fileInputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 存储imei数据到SD卡中
+     */
+    private static void writeSDcard(String imei) throws Exception {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            String path = getGlobalpath();
+            File dir = new File(path);
+            if (!dir.exists()) dir.mkdirs();
+            FileOutputStream fos = new FileOutputStream(path + defaultFileName, true);
+            fos.write(imei.getBytes());
+            fos.flush();
+            fos.close();
+        }
+    }
+
+    private static String getGlobalpath() {
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "sirui2017_uuid" + File.separator;
     }
 
     /**

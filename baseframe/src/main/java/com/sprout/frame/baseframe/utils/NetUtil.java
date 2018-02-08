@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 
+import com.hwangjr.rxbus.RxBus;
 import com.sprout.frame.baseframe.event.NetworkStatusChangeEvent;
 
 /**
@@ -164,7 +165,7 @@ public class NetUtil {
         @Override
         public void onReceive(Context context, Intent intent) {
             //发送Eventbus
-            EventBusUtil.post(new NetworkStatusChangeEvent(NetUtil.getInstance().isNetworkConnected()));
+            RxBus.get().post(new NetworkStatusChangeEvent(NetUtil.getInstance().isNetworkConnected()));
         }
     }
 }

@@ -11,6 +11,7 @@ import com.sprout.frame.baseframe.utils.LogUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.callback.StringCallback;
+import com.zhy.http.okhttp.request.RequestCall;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +27,7 @@ import okhttp3.Call;
  * Create by Sprout at 2017/8/15
  */
 public abstract class HttpAction<E> extends LongAction<E, String> {
-
+    //每个接口都需要传递的公共参数
     private static final String OS_VERSION = "osVersion";
     private static final String APP_VERSION = "appVersion";
     private static final String PHONE_TYPE = "phoneType";
@@ -40,17 +41,16 @@ public abstract class HttpAction<E> extends LongAction<E, String> {
     private Map<String, String> map = new HashMap<>();
     private Map<String, File> fileMap = new HashMap<>();
     private Gson gson;
+    private String tag;
+    private int connTimeout = 0;
+    private int readTimeout = 0;
+    private int writeTimeout = 0;
 
     private static String host;
     private String rPath;
 
-    public static void setHost(String host) {
-        HttpAction.host = host;
-    }
-
     public HttpAction(String rPath) {
-        this.rPath = rPath;
-        initial();
+        this(host, rPath);
     }
 
     public HttpAction(String host, String rPath) {
@@ -85,6 +85,49 @@ public abstract class HttpAction<E> extends LongAction<E, String> {
         }
     }
 
+    public static void setHost(String host) {
+        HttpAction.host = host;
+    }
+
+    /**
+     * 为本请求设置TAG, 可在BaseActivity的onDestroy中取消TAG标签的请求, 防止网络较差的情况下, 回调返回时, 用户已经退出界面了, 这时再去更新界面, 会出现空指针异常崩溃<Br/>
+     * 若不需要更新界面, 且响应结果返回前界面已退出的情况下, 仍要处理响应结果, 则不要设置TAG
+     */
+    public HttpAction setTag(String tag) {
+        this.tag = tag;
+        return this;
+    }
+
+    /**
+     * 为单次请求配置连接超时时间
+     *
+     * @param timeout 单位s
+     */
+    public HttpAction connTimeOut(int timeout) {
+        this.connTimeout = timeout;
+        return this;
+    }
+
+    /**
+     * 为单次请求配置读取超时时间
+     *
+     * @param timeout 单位s
+     */
+    public HttpAction readTimeOut(int timeout) {
+        this.readTimeout = timeout;
+        return this;
+    }
+
+    /**
+     * 为单次请求配置写入超时时间
+     *
+     * @param timeout 单位s
+     */
+    public HttpAction writeTimeOut(int timeout) {
+        this.writeTimeout = timeout;
+        return this;
+    }
+
     /**
      * 添加普通参数
      */
@@ -102,10 +145,6 @@ public abstract class HttpAction<E> extends LongAction<E, String> {
     }
 
     public void execute() {
-        realExecute();
-    }
-
-    private void realExecute() {
         if (TextUtils.isEmpty(host)) return;
 
         runOnStart();   //请求开始前的回调
@@ -122,10 +161,19 @@ public abstract class HttpAction<E> extends LongAction<E, String> {
         }
         LogUtil.debug("请求", url.concat("\n").concat(new Gson().toJson(tempMap)));
 
-        builder.build().execute(new StringCallback() {
+        if (!TextUtils.isEmpty(tag)) builder.tag(tag);
+        RequestCall requestCall = builder.build();
+        if (connTimeout > 0) requestCall.connTimeOut(connTimeout * 1000);
+        if (readTimeout > 0) requestCall.connTimeOut(readTimeout * 1000);
+        if (writeTimeout > 0) requestCall.connTimeOut(writeTimeout * 1000);
+        requestCall.execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                LogUtil.debug("响应", url.concat("\t").concat("onError").concat("\t").concat(e.getMessage()));
+                //主动取消请求
+                if (e != null && !TextUtils.isEmpty(e.getMessage()) && "Socket closed".equals(e.getMessage())) return;
+
+                if (!TextUtils.isEmpty(url) && e != null && !TextUtils.isEmpty(e.getMessage()))
+                    LogUtil.debug("响应", url.concat("\t").concat("onError").concat("\t").concat(e.getMessage()));
                 //请求结束后的回调(Gson解析前)
                 runOnComplet();
                 //请求结束后的回调(Gson解析后)
@@ -151,7 +199,7 @@ public abstract class HttpAction<E> extends LongAction<E, String> {
     }
 
     /**
-     * 解析响应
+     * 解析公共响应
      */
     private E decodeAndProcessModel(String response, HttpResult<E> result) throws JSONException {
         //默认解析公共的数据
@@ -159,13 +207,15 @@ public abstract class HttpAction<E> extends LongAction<E, String> {
         result.setResultCode(resultObject.getInt("resultCode"));
         result.setResultMessage(resultObject.getString("resultMessage"));
         //解析非公共的数据
-        if (gson == null)
-            gson = new GsonBuilder().registerTypeAdapterFactory(new NullStringTypeAdapterFactory()).create();
+        if (gson == null) gson = new GsonBuilder().registerTypeAdapterFactory(new NullStringTypeAdapterFactory()).create();
         E e = decodeModel(response, result, gson);
         result.setEntity(e);
         return e;
     }
 
+    /**
+     * 解析特有响应
+     */
     public E decodeModel(String response, HttpResult<E> result, Gson gson) throws JSONException {
         return null;
     }

@@ -13,12 +13,15 @@ import com.sprout.frame.baseframe.R;
 import com.sprout.frame.baseframe.lifecycle.ButterKnifeLifecycle;
 import com.sprout.frame.baseframe.lifecycle.ILifecycle;
 import com.sprout.frame.baseframe.lifecycle.LifecycleManager;
+import com.sprout.frame.baseframe.lifecycle.RxBusLifecycle;
 import com.sprout.frame.baseframe.utils.statusbar.StatusBarUtil;
+import com.zhy.http.okhttp.OkHttpUtils;
 
 /**
  * Create by Sprout at 2017/8/15
  */
 public abstract class BaseActivity extends AppCompatActivity {
+    public String TAG;
 
     private LinearLayout llRoot;    //根布局
     private View actionBar;         //标题栏布局
@@ -30,6 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void onCreate(@Nullable Bundle savedInstanceState, int layoutId) {
         super.onCreate(savedInstanceState);
+        TAG = this.getClass().getSimpleName();
 //        //设置状态栏字体颜色为黑色
 //        StatusBarUtil.statusBarLightMode(this);
         //设置状态栏背景颜色
@@ -43,6 +47,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         addContentView(View.inflate(this, layoutId, null));
 
         addLifecycle(new ButterKnifeLifecycle(this));
+        addLifecycle(new RxBusLifecycle(this));
         manager.onCreate();
     }
 
@@ -62,6 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         manager.onDestory();
+        if (!TextUtils.isEmpty(TAG)) OkHttpUtils.getInstance().cancelTag(TAG);
     }
 
     /**
@@ -76,8 +82,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     private void addActionBar(View view) {
         if (llRoot != null && view != null) {
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             actionBar = view;
             llRoot.addView(view, lp);
             //默认隐藏, 只有当setTitle()时才显示
@@ -89,8 +94,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 添加contentview
      */
     private void addContentView(View view) {
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         if (llRoot != null && view != null) {
             contentView = view;
             llRoot.addView(view, lp);

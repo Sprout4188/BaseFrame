@@ -1,6 +1,7 @@
 package com.sprout.frame.baseframe.base;
 
 import android.app.Activity;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,8 @@ public class ManagerActivity {
     private static ManagerActivity instance = new ManagerActivity();
     private List<Activity> mLists = new ArrayList<>();
 
-    private ManagerActivity() {}
+    private ManagerActivity() {
+    }
 
     public synchronized static ManagerActivity getInstance() {
         return instance;
@@ -41,6 +43,23 @@ public class ManagerActivity {
                 mLists.remove(pActivity);
                 pActivity.finish();
                 pActivity = null;
+            }
+        }
+    }
+
+    /**
+     * 从集合中删除指定Activity
+     *
+     * @param simpleName 需要删除的Activity的简单名称
+     */
+    public void removeActivity(String simpleName) {
+        if (!TextUtils.isEmpty(simpleName)) {
+            for (Activity activity : mLists) {
+                if (activity.getClass().getSimpleName().equals(simpleName)) {
+                    mLists.remove(activity);
+                    activity.finish();
+                    activity = null;
+                }
             }
         }
     }
