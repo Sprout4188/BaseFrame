@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.hwangjr.rxbus.annotation.Subscribe;
-import com.hwangjr.rxbus.annotation.Tag;
-import com.hwangjr.rxbus.thread.EventThread;
 import com.sprout.frame.baseframe.base.BaseActivity;
 import com.sprout.frame.baseframe.event.NetworkStatusChangeEvent;
 import com.sprout.frame.baseframe.http.HttpAction;
