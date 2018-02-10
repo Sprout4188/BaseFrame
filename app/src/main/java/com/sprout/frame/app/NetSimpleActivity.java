@@ -2,17 +2,14 @@ package com.sprout.frame.app;
 
 import android.os.Bundle;
 
-import com.jakewharton.rxbinding2.view.RxView;
 import com.sprout.frame.baseframe.base.BaseActivity;
 import com.sprout.frame.baseframe.entity.LoginEntity;
 import com.sprout.frame.baseframe.http.HttpResult;
 import com.sprout.frame.baseframe.http.InterceptorUtil;
 import com.sprout.frame.baseframe.httpAction.LoginAction;
-import com.sprout.frame.baseframe.sp.CommonSP;
 import com.sprout.frame.baseframe.widgets.progressbar.CircleProgressBar;
 
 import butterknife.OnClick;
-import io.reactivex.functions.Consumer;
 import rx.functions.Action1;
 
 /**
