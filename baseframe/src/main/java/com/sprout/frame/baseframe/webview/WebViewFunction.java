@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.webkit.ConsoleMessage;
 import android.webkit.JavascriptInterface;
@@ -34,7 +33,7 @@ public class WebViewFunction extends Object {
     private Context context;
     private LinearLayout layout;
     private LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-    private Action1<String> action1;
+    private Action1<String> mAction;
 
     /**
      * 初始化webView
@@ -84,7 +83,6 @@ public class WebViewFunction extends Object {
      * @param jsName 本类对象 映射到js上的对象名字
      */
     public WebViewFunction load(final String url, String jsName) {
-        Log.d("WebViewFunction", "加载");
         //通过addJavascriptInterface()将Java对象映射到JS对象
         //参数1：java这边的对象
         //参数2：映射到js上的对象名字
@@ -167,22 +165,21 @@ public class WebViewFunction extends Object {
 
             @Override
             public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-                if (action1 != null) action1.call(message);
+                if (mAction != null) mAction.call(message);
                 return super.onJsAlert(view, url, message, result);
             }
 
             @Override
             public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
-                if (action1 != null) action1.call(message);
+                if (mAction != null) mAction.call(message);
                 return super.onJsConfirm(view, url, message, result);
             }
 
             @Override
             public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-                if (action1 != null) action1.call(consoleMessage.message());
+                if (mAction != null) mAction.call(consoleMessage.message());
                 return true;
             }
-
         });
 
         webView.loadUrl(url);
@@ -203,7 +200,7 @@ public class WebViewFunction extends Object {
      */
     @JavascriptInterface
     public void rechargeBack(String msg) {
-        if (action1 != null) action1.call(msg);
+        if (mAction != null) mAction.call(msg);
     }
 
     @JavascriptInterface
@@ -244,8 +241,8 @@ public class WebViewFunction extends Object {
         return this;
     }
 
-    public WebViewFunction setCallback(Action1<String> action1) {
-        this.action1 = action1;
+    public WebViewFunction setCallback(Action1<String> action) {
+        this.mAction = action;
         return this;
     }
 }

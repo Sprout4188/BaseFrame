@@ -2,7 +2,7 @@ package com.sprout.frame.baseframe.httpAction;
 
 import com.google.gson.Gson;
 import com.sprout.frame.baseframe.datamodel.Customer;
-import com.sprout.frame.baseframe.entity.LoginEntity;
+import com.sprout.frame.baseframe.entity.LoginSimpleEntity;
 import com.sprout.frame.baseframe.global.Api;
 import com.sprout.frame.baseframe.http.HttpAction;
 import com.sprout.frame.baseframe.http.HttpResult;
@@ -13,7 +13,7 @@ import com.sprout.frame.baseframe.utils.coder.CoderUtil;
  * Create by Sprout at 2017/8/15
  * 登录
  */
-public class LoginAction extends HttpAction<LoginEntity> {
+public class LoginAction extends HttpAction<LoginSimpleEntity> {
 
     private String encryUsername;
     private String encryPassword;
@@ -32,7 +32,7 @@ public class LoginAction extends HttpAction<LoginEntity> {
     }
 
     @Override
-    public LoginEntity decodeModel(String response, HttpResult<LoginEntity> result, Gson gson) {
+    public LoginSimpleEntity decodeModel(String response, HttpResult<LoginSimpleEntity> result, Gson gson) {
         if (result.isSucc()) {
             //将加密后的用户名和密码存在SP中
             AppSP.username.setValue(encryUsername);
@@ -49,6 +49,6 @@ public class LoginAction extends HttpAction<LoginEntity> {
             Customer.instance.input1 = encryUsername;
             Customer.instance.input2 = encryPassword;
         }
-        return gson.fromJson(response, LoginEntity.class);
+        return gson.fromJson(response, LoginSimpleEntity.class);
     }
 }

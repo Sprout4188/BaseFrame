@@ -28,7 +28,6 @@ public class WebViewSimpleActivity extends BaseActivity {
         LinearLayout container = (LinearLayout) findViewById(R.id.llContainer);
         webViewFunction = new WebViewFunction()
                 .initWebView(getApplicationContext(), container)
-//                .load("http://192.168.6.160:8889/javascript.html", "jsName")
                 .load("http://www.baidu.com", "jsName")
                 .setCallback(new Action1<String>() {
                     @Override
@@ -48,14 +47,7 @@ public class WebViewSimpleActivity extends BaseActivity {
     //Android调JS
     @OnClick(R.id.btCallJS)
     public void click() {
-        webViewFunction
-                .AndroidCallJS("javascript:callJS()")
-                .setCallback(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-                        //Android调JS后的回调
-                    }
-                });
+        webViewFunction.AndroidCallJS("javascript:callJS()");
     }
 
     //物理后退键处理

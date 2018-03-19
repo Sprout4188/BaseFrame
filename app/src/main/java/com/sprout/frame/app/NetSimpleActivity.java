@@ -3,7 +3,7 @@ package com.sprout.frame.app;
 import android.os.Bundle;
 
 import com.sprout.frame.baseframe.base.BaseActivity;
-import com.sprout.frame.baseframe.entity.LoginEntity;
+import com.sprout.frame.baseframe.entity.LoginSimpleEntity;
 import com.sprout.frame.baseframe.http.HttpResult;
 import com.sprout.frame.baseframe.http.InterceptorUtil;
 import com.sprout.frame.baseframe.httpAction.LoginAction;
@@ -33,7 +33,7 @@ public class NetSimpleActivity extends BaseActivity {
                 .onSuccess(new Action1<HttpResult>() {
                     @Override
                     public void call(HttpResult result) {
-                        LoginEntity entity = (LoginEntity) result.getEntity();
+                        LoginSimpleEntity entity = (LoginSimpleEntity) result.getEntity();
                     }
                 })
                 .onFail(new Action1<HttpResult>() {

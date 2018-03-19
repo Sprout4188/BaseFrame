@@ -3,7 +3,7 @@ package com.sprout.frame.baseframe.entity;
 /**
  * Create by Sprout at 2017/8/15
  */
-public class LoginEntity {
+public class LoginSimpleEntity {
 
     private ResultBean result;
     private EntityBean entity;
