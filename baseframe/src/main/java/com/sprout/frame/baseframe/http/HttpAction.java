@@ -28,14 +28,15 @@ import okhttp3.Call;
  */
 public abstract class HttpAction<E> extends LongAction<E, String> {
     //每个接口都需要传递的公共参数
-    private static final String OS_VERSION = "osVersion";
-    private static final String APP_VERSION = "appVersion";
-    private static final String PHONE_TYPE = "phoneType";
-    private static final String PHONE_ID = "phoneID";
-    private static final String OS_TYPE_ANDROID = "2";
-    private static final String APP_KEY = "appName";
-    private static final String APP_NAME = "sr";
-    private static final String INPUT1 = "input1";
+    private static final String K_OS_VERSION = "osVersion";     //手机系统SDK版本(如16)
+    private static final String K_PHONE_TYPE = "phoneType";     //手机类型   ("1"为iOS, "2"为Android)
+    private static final String V_PHONE_TYPE = "2";
+    private static final String K_PHONE_ID = "phoneID";         //手机ID     (即IMEI,UUID)
+    private static final String K_APP_VERSION = "appVersion";   //APP版本    (即app/build.gradle中android-defaultConfig-versionName, 如1.5.8)
+    private static final String K_APP_NAME = "appName";         //APP名称    (如"思锐")
+    private static final String V_APP_NAME = "sr";
+
+    private static final String INPUT1 = "input1";              //session的替代方案
     private static final String INPUT2 = "input2";
 
     private Map<String, String> map = new HashMap<>();
@@ -60,16 +61,11 @@ public abstract class HttpAction<E> extends LongAction<E, String> {
     }
 
     private void initial() {
-        //返回手机系统SDK版本(如16)
-        add(OS_VERSION, AndroidUtil.SDK_VERSION_CODE + "");
-        //返回手机类型      ("1"为iOS, "2"为Android)
-        add(PHONE_TYPE, OS_TYPE_ANDROID);
-        //返回手机ID       (即IMEI,UUID)
-        add(PHONE_ID, AndroidUtil.getUUID());
-        //返回APP版本名    (如1.5.8)
-        add(APP_VERSION, AndroidUtil.APP_VERSION_NAME);
-        //返回APP名称      (如"思锐")
-        add(APP_KEY, APP_NAME);
+        add(K_OS_VERSION, AndroidUtil.SDK_VERSION_CODE + "");
+        add(K_PHONE_TYPE, V_PHONE_TYPE);
+        add(K_PHONE_ID, AndroidUtil.getUUID());
+        add(K_APP_VERSION, AndroidUtil.APP_VERSION_NAME);
+        add(K_APP_NAME, V_APP_NAME);
         //数据模型中，有这两个参数，才传, 用于session保活, 原理如下:
         //本来第一次请求网络时, 服务器创建一个session会话, 返回一个cookie
         //手机收到响应后持久化存储该cookie, 以后每次请求都上传该cookie, 即可保证session不会被销毁
@@ -169,11 +165,12 @@ public abstract class HttpAction<E> extends LongAction<E, String> {
         requestCall.execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                //主动取消请求
+                //主动取消请求时，不处理
                 if (e != null && !TextUtils.isEmpty(e.getMessage()) && "Socket closed".equals(e.getMessage())) return;
 
                 if (!TextUtils.isEmpty(url) && e != null && !TextUtils.isEmpty(e.getMessage()))
                     LogUtil.debug("响应", url.concat("\t").concat("onError").concat("\t").concat(e.getMessage()));
+
                 //请求结束后的回调(Gson解析前)
                 runOnComplet();
                 //请求结束后的回调(Gson解析后)
