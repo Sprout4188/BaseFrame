@@ -22,6 +22,7 @@ public class MainActivity extends BaseActivity {
         // 在应用入口Activity中配置BaseURL
         HttpAction.setHost(BuildConfig.API_URL);
         setTitle("示例入口");
+
     }
 
     @OnClick({R.id.btTestNet, R.id.btTestDB, R.id.btTestPermission, R.id.btCapture, R.id.btSelect, R.id.btTestWebView})
