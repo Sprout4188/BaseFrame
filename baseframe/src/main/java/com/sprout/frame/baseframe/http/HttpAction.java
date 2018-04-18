@@ -4,10 +4,13 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sprout.frame.baseframe.base.App;
 import com.sprout.frame.baseframe.datamodel.Customer;
 import com.sprout.frame.baseframe.http.typeAdapterFactory.NullStringTypeAdapterFactory;
 import com.sprout.frame.baseframe.utils.AndroidUtil;
 import com.sprout.frame.baseframe.utils.LogUtil;
+import com.sprout.frame.baseframe.utils.NetUtil;
+import com.sprout.frame.baseframe.widgets.nicetoast.Toasty;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -141,7 +144,14 @@ public abstract class HttpAction<E> extends LongAction<E, String> {
     }
 
     public void execute() {
-        if (TextUtils.isEmpty(host)) return;
+        if (TextUtils.isEmpty(host)) {
+            Toasty.warning(App.getContext(), "host不能为空").show();
+            return;
+        }
+        if (!NetUtil.getInstance().isNetworkConnected()) {
+            Toasty.warning(App.getContext(), "网络异常，请检查网络").show();
+            return;
+        }
 
         runOnStart();   //请求开始前的回调
         final String url = host.concat(rPath);
